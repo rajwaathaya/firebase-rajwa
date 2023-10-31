@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "515985635665",
+    "project_id": "rajwa-firebase",
+    "storage_bucket": "rajwa-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515985635665:android:418b7e20380866fe2e7b70",
+        "android_client_info": {
+          "package_name": "com.example.fire_base"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCa-eLaRASsXFkMPCNTxEAO056w92VsTDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
