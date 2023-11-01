@@ -20,14 +20,13 @@ class LoginView extends GetView<LoginController> {
               children: [
                 Image.asset(
                   'assets/images/login.png',
-                  width: 252,
-                  height: 199,
+                  width: 230,
+                  height: 170,
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: 30),
                 Container(
-                  width: 400,
-                  height: 175,
                   child: Card(
+                    margin: EdgeInsets.all(16),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16)),
@@ -87,23 +86,26 @@ class LoginView extends GetView<LoginController> {
                     ),
                   ),
                 ),
-                SizedBox(height: 40),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Color(0xFF8332A6)),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24))),
-                      elevation: MaterialStatePropertyAll(5)),
-                  onPressed: () => authC.logIn(
-                      controller.emailC.text, controller.passC.text),
-                  child: Container(
-                    height: 48,
-                    width: 400,
-                    child: Center(
-                      child: Text(
-                        'Sign In',
-                        style: TextStyle(fontSize: 15),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF8332A6)),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24))),
+                        elevation: MaterialStatePropertyAll(5)),
+                    onPressed: () => authC.logIn(
+                        controller.emailC.text, controller.passC.text),
+                    child: Container(
+                      height: 48,
+                      width: 400,
+                      child: Center(
+                        child: Text(
+                          'Sign In',
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
                     ),
                   ),

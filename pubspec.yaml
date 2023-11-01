@@ -21,5 +21,7 @@ dev_dependencies:
 flutter: 
   assets: 
     - assets/images/login.png
+    - assets/images/profile.png
+    - assets/images/avatar.png
   uses-material-design: true
 
