@@ -1,3 +1,4 @@
+import 'package:fire_base/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -73,11 +74,11 @@ class ProfileView extends GetView<ProfileController> {
             ),
           ),
           Positioned(
-            bottom: 48,
+            bottom: 40,
             left: 40,
             child: Container(
-              width: 120,
-              height: 66,
+              width: 110,
+              height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.white,
@@ -104,7 +105,7 @@ class ProfileView extends GetView<ProfileController> {
                     '7',
                     style: TextStyle(
                       color: Color(0xFF8332A6),
-                      fontSize: 36,
+                      fontSize: 30,
                     ),
                   ),
                 ],
@@ -112,11 +113,11 @@ class ProfileView extends GetView<ProfileController> {
             ),
           ),
           Positioned(
-            bottom: 48,
+            bottom: 40,
             right: 40,
             child: Container(
-              width: 120,
-              height: 66,
+              width: 110,
+              height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.white,
@@ -139,11 +140,11 @@ class ProfileView extends GetView<ProfileController> {
                       fontSize: 14,
                     ),
                   ),
-                  const Text(
+                  Text(
                     '77%',
                     style: TextStyle(
                       color: Color(0xFF8332A6),
-                      fontSize: 36,
+                      fontSize: 30,
                     ),
                   ),
                 ],
@@ -151,6 +152,46 @@ class ProfileView extends GetView<ProfileController> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF8332A6),
+        onPressed: () {},
+        child: Icon(Icons.add, color: Colors.white, size: 20),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 4.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 50, bottom: 10, top: 10),
+              child: IconButton(
+                onPressed: () {
+                  Get.toNamed(Routes.HOME);
+                },
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.grey,
+                  size: 30,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 50, bottom: 10, top: 10),
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.person,
+                  color: Color(0xFF8332A6),
+                  size: 30,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
