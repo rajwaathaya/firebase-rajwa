@@ -26,8 +26,5 @@ class AuthController extends GetxController {
   }
 
   void signUp() {}
-  void logOut() async {
-    await FirebaseAuth.instance.signOut();
-    Get.offAllNamed(Routes.LOGIN);
-  }
+  void logOut() {}
 }

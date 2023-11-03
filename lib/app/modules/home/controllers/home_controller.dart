@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  final RxBool edit = false.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -18,6 +18,4 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

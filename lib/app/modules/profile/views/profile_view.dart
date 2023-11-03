@@ -74,7 +74,7 @@ class ProfileView extends GetView<ProfileController> {
             ),
           ),
           Positioned(
-            bottom: 40,
+            bottom: 50,
             left: 40,
             child: Container(
               width: 110,
@@ -113,7 +113,7 @@ class ProfileView extends GetView<ProfileController> {
             ),
           ),
           Positioned(
-            bottom: 40,
+            bottom: 50,
             right: 40,
             child: Container(
               width: 110,
@@ -153,12 +153,6 @@ class ProfileView extends GetView<ProfileController> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFF8332A6),
-        onPressed: () {},
-        child: Icon(Icons.add, color: Colors.white, size: 20),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         notchMargin: 4.0,
