@@ -14,6 +14,7 @@ void main() async {
           apiKey: 'AIzaSyCa-eLaRASsXFkMPCNTxEAO056w92VsTDk',
           appId: '1:515985635665:android:418b7e20380866fe2e7b70',
           messagingSenderId: '515985635665',
+          storageBucket: "rajwa-firebase.appspot.com",
           projectId: 'rajwa-firebase'));
   runApp(MyApp());
 }

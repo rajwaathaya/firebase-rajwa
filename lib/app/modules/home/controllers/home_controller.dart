@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
 class HomeController extends GetxController {
-  final RxBool edit = false.obs;
+  final RxInt editIndex = (-1).obs;
 
   @override
   void onInit() {

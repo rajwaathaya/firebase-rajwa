@@ -1,15 +1,13 @@
-import 'package:fire_base/app/controllers/auth_controller.dart';
-import 'package:fire_base/app/modules/home/views/home_view.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
+import 'package:nb_utils/nb_utils.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  final _formkey = GlobalKey<FormState>();
-  RxBool isRegis = false.obs;
+  final authC = Get.find<LoginController>();
+  GlobalKey<FormState> _formkey = GlobalKey();
   RxBool visibilityPass = false.obs;
 
   @override
@@ -42,9 +40,10 @@ class LoginView extends GetView<LoginController> {
                         padding: EdgeInsets.all(20.0),
                         child: Form(
                           key: _formkey,
+                          autovalidateMode: AutovalidateMode.always,
                           child: Column(
                             children: [
-                              if (isRegis.value == true)
+                              if (controller.isRegis)
                                 Row(
                                   children: [
                                     Icon(
@@ -65,7 +64,7 @@ class LoginView extends GetView<LoginController> {
                                                   color: Color(0xFF8332A6))),
                                         ),
                                         validator: (value) =>
-                                            value == null || value.isEmpty
+                                            value == null || value == ''
                                                 ? 'This Field Is Required'
                                                 : null,
                                         keyboardType: TextInputType.name,
@@ -95,7 +94,7 @@ class LoginView extends GetView<LoginController> {
                                                 color: Color(0xFF8332A6))),
                                       ),
                                       validator: (value) =>
-                                          value == null || value.isEmpty
+                                          value == null || value == ''
                                               ? 'This Field Is Required'
                                               : null,
                                       keyboardType: TextInputType.emailAddress,
@@ -135,7 +134,7 @@ class LoginView extends GetView<LoginController> {
                                         ),
                                       ),
                                       validator: (value) =>
-                                          value == null || value.isEmpty
+                                          value == null || value == ''
                                               ? 'This Field Is Required'
                                               : null,
                                       keyboardType:
@@ -146,7 +145,7 @@ class LoginView extends GetView<LoginController> {
                                 ],
                               ),
                               SizedBox(height: 15),
-                              if (isRegis.value == true)
+                              if (controller.isRegis)
                                 Row(
                                   children: [
                                     Icon(
@@ -177,7 +176,7 @@ class LoginView extends GetView<LoginController> {
                                           ),
                                         ),
                                         validator: (value) =>
-                                            value == null || value.isEmpty
+                                            value == null || value == ''
                                                 ? 'This Field Is Required'
                                                 : null,
                                         keyboardType:
@@ -188,7 +187,7 @@ class LoginView extends GetView<LoginController> {
                                   ],
                                 ),
                               SizedBox(height: 15),
-                              if (isRegis.value == true)
+                              if (controller.isRegis)
                                 Row(
                                   children: [
                                     Icon(
@@ -208,32 +207,17 @@ class LoginView extends GetView<LoginController> {
                                               borderSide: BorderSide(
                                                   color: Color(0xFF8332A6))),
                                         ),
-                                        // onTap: () async => await controller
-                                        // .handleBirthDate(context),
-
-                                        // {
-                                        //   DateTime? pickeddate =
-                                        //       await showDatePicker(
-                                        //           context: context,
-                                        //           initialDate: DateTime.now(),
-                                        //           firstDate: DateTime(2000),
-                                        //           lastDate: DateTime(2050));
-
-                                        //   if (pickeddate != null) {
-                                        //     controller.dateC.text =
-                                        //         DateFormat('yyyy-mm-dd')
-                                        //             .format(pickeddate);
-                                        //   }
-                                        // },
-                                        // validator: (value) =>
-                                        //     value == null || value.isEmpty
-                                        //         ? 'This Field Is Required'
-                                        //         : null,
+                                        onTap: () async => await controller
+                                            .pickedDate(context),
+                                        validator: (value) =>
+                                            value == null || value == ''
+                                                ? 'This Field Is Required'
+                                                : null,
                                       ),
                                     ),
                                   ],
                                 ),
-                              if (isRegis.value == true)
+                              if (controller.isRegis)
                                 Padding(
                                   padding: EdgeInsets.only(
                                       left: 8, right: 8, top: 25),
@@ -293,29 +277,51 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
               SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Color(0xFF8332A6)),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24))),
-                      elevation: MaterialStatePropertyAll(5)),
-                  onPressed: () {
-                    if (_formkey.currentState!.validate()) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomeView()));
-                    }
-                  },
-                  child: Container(
-                    height: 48,
-                    width: 400,
-                    child: Center(
-                      child: Text(
-                        'Sign In',
-                        style: TextStyle(fontSize: 15),
-                      ),
+              Obx(
+                () => Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF8332A6)),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24))),
+                        elevation: MaterialStatePropertyAll(5)),
+                    onPressed: () {
+                      if (_formkey.currentState!.validate()) {
+                        if (controller.isRegis) {
+                          controller.register();
+                        } else {
+                          controller.login();
+                        }
+                      }
+                    },
+                    child: Container(
+                      height: 48,
+                      width: 400,
+                      child: controller.isRegis
+                          ? controller.isSaving
+                              ? const Center(
+                                  child: Text('Loading...'),
+                                )
+                              : const Center(
+                                  child: Text(
+                                    'Register',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                          : controller.isSaving
+                              ? const Center(child: Text('Loading...'))
+                              : const Center(
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                     ),
                   ),
                 ),
@@ -323,7 +329,7 @@ class LoginView extends GetView<LoginController> {
               SizedBox(height: 10),
               GestureDetector(
                 child: Text(
-                  isRegis.value
+                  controller.isRegis
                       ? 'Already Have Account? Login Here'
                       : 'Doesn\'t Have Account? Register Here',
                   style: TextStyle(
@@ -332,7 +338,11 @@ class LoginView extends GetView<LoginController> {
                       fontStyle: FontStyle.italic),
                 ),
                 onTap: () {
-                  isRegis.value = !isRegis.value;
+                  controller.isRegis = !controller.isRegis;
+                  controller.nameC.clear();
+                  controller.emailC.clear();
+                  controller.passC.clear();
+                  controller.confirC.clear();
                 },
               ),
               SizedBox(height: 5),

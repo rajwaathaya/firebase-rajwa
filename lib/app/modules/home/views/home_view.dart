@@ -1,9 +1,9 @@
-import 'package:fire_base/app/controllers/auth_controller.dart';
 import 'package:fire_base/app/modules/login/controllers/login_controller.dart';
 import 'package:fire_base/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -96,117 +96,207 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                     SizedBox(height: 15),
-                    Obx(
-                      () => Container(
-                        height: 200,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                controller.edit.value = !controller.edit.value;
-                              },
-                              child: controller.edit.value == false
-                                  ? Container(
-                                      width: 150,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                      margin: EdgeInsets.only(right: 15),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.topCenter,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(top: 20),
-                                              child: Image.asset(
-                                                'assets/images/home.png',
-                                                width: 106,
-                                                height: 60,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(height: 18),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              'Book Name',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFFBF2C98),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              'Category',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xFFBF2C98),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              '125/250 page',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xFFBF2C98),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(height: 10),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              '50%', // Tampilkan presentase di atas progres bar
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFFBF2C98),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: ClipRRect(
+                    Container(
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          return Obx(
+                            () {
+                              return GestureDetector(
+                                  onTap: () {
+                                    controller.editIndex.value = index;
+                                  },
+                                  child: controller.editIndex.value == index
+                                      ? Container(
+                                          width: 150,
+                                          height: 200,
+                                          decoration: BoxDecoration(
+                                              color: Color(0xFF8332A6)
+                                                  .withOpacity(0.9),
                                               borderRadius:
-                                                  BorderRadius.circular(6),
-                                              child: LinearProgressIndicator(
-                                                value: 0.5,
-                                                minHeight: 10,
-                                                backgroundColor:
-                                                    Colors.grey.shade400,
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                            Color>(
-                                                        Color(0xFF7C39BF)),
+                                                  BorderRadius.circular(16)),
+                                          margin: EdgeInsets.only(right: 15),
+                                          child: Stack(
+                                            children: [
+                                              Positioned(
+                                                top: 10,
+                                                right: 10,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    controller.editIndex.value =
+                                                        -1;
+                                                  },
+                                                  child: Container(
+                                                    width: 30,
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Center(
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
+                                              Center(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {},
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Icon(
+                                                            Icons.edit,
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            'Edit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 20),
+                                                    GestureDetector(
+                                                      onTap: () {},
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Icon(
+                                                            Icons.delete,
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            'Delete',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : Container(
+                                          width: 150,
+                                          height: 200,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                          margin: EdgeInsets.only(right: 15),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 20),
+                                                    child: Image.asset(
+                                                      'assets/images/home.png',
+                                                      width: 106,
+                                                      height: 60,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 18),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 10),
+                                                  child: Text(
+                                                    'Book Name',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Color(0xFFBF2C98),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Category',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Color(0xFFBF2C98),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '125/250 page',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Color(0xFFBF2C98),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 10),
+                                                  child: Text(
+                                                    '50%', // Tampilkan presentase di atas progres bar
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Color(0xFFBF2C98),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6),
+                                                    child:
+                                                        LinearProgressIndicator(
+                                                      value: 0.5,
+                                                      minHeight: 10,
+                                                      backgroundColor:
+                                                          Colors.grey.shade400,
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Color(
+                                                                  0xFF7C39BF)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    )
-                                  : Container(
-                                      width: 150,
-                                      height: 200,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color(0xFF8332A6).withOpacity(80),
-                                          borderRadius:
-                                              BorderRadius.circular(16)),
-                                    ),
-                            );
-                          },
-                        ),
+                                        ));
+                            },
+                          );
+                        },
                       ),
                     ),
                     SizedBox(height: 15),

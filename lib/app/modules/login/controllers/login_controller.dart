@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:fire_base/app/data/class_model.dart';
 import 'package:fire_base/app/routes/app_pages.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:fire_base/app/integrations/firestore.dart';
-import 'package:fire_base/app/modules/login/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginController extends GetxController {
@@ -51,6 +50,10 @@ class LoginController extends GetxController {
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
         lastDate: DateTime(2050));
+
+    if (selectedDate != null) {
+      dateC.text = DateFormat('EEE, dd MM y').format(selectedDate!);
+    }
   }
 
   login() async {
@@ -94,7 +97,7 @@ class LoginController extends GetxController {
         username: nameC.text,
         email: emailC.text,
         password: passC.text,
-        // birthDate: pickeddate,
+        birthDate: selectedDate,
         image: '',
         time: DateTime.now(),
       );
@@ -108,6 +111,7 @@ class LoginController extends GetxController {
             .doc(user.id)
             .set(user.toJson);
       }
+      isSaving = false;
     } on FirebaseAuthException catch (e) {
       isSaving = false;
       if (e.code == 'weak-password') {
