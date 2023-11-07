@@ -1,4 +1,5 @@
 import 'package:fire_base/app/controllers/auth_controller.dart';
+import 'package:fire_base/app/modules/login/controllers/login_controller.dart';
 import 'package:fire_base/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  final authC = Get.find<AuthController>();
+  final authC = Get.find<LoginController>();
   final HomeController controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
@@ -95,114 +96,117 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                     SizedBox(height: 15),
-                    Container(
-                      height: 200,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 3,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              controller.edit.value = !controller.edit.value;
-                            },
-                            child: controller.edit.value == false
-                                ? Container(
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(16),
+                    Obx(
+                      () => Container(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                controller.edit.value = !controller.edit.value;
+                              },
+                              child: controller.edit.value == false
+                                  ? Container(
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      margin: EdgeInsets.only(right: 15),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topCenter,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 20),
+                                              child: Image.asset(
+                                                'assets/images/home.png',
+                                                width: 106,
+                                                height: 60,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 18),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              'Book Name',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFBF2C98),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              'Category',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color(0xFFBF2C98),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              '125/250 page',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color(0xFFBF2C98),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              '50%', // Tampilkan presentase di atas progres bar
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFBF2C98),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                              child: LinearProgressIndicator(
+                                                value: 0.5,
+                                                minHeight: 10,
+                                                backgroundColor:
+                                                    Colors.grey.shade400,
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                            Color>(
+                                                        Color(0xFF7C39BF)),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 150,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color(0xFF8332A6).withOpacity(80),
+                                          borderRadius:
+                                              BorderRadius.circular(16)),
                                     ),
-                                    margin: EdgeInsets.only(right: 15),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.topCenter,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(top: 20),
-                                            child: Image.asset(
-                                              'assets/images/home.png',
-                                              width: 106,
-                                              height: 60,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 18),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            'Book Name',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xFFBF2C98),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            'Category',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xFFBF2C98),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            '125/250 page',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xFFBF2C98),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            '50%', // Tampilkan presentase di atas progres bar
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xFFBF2C98),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            child: LinearProgressIndicator(
-                                              value: 0.5,
-                                              minHeight: 10,
-                                              backgroundColor:
-                                                  Colors.grey.shade400,
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      Color(0xFF7C39BF)),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    width: 150,
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Color(0xFF8332A6).withOpacity(80),
-                                        borderRadius:
-                                            BorderRadius.circular(16)),
-                                  ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),

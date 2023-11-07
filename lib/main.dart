@@ -1,4 +1,4 @@
-import 'package:fire_base/app/controllers/auth_controller.dart';
+import 'package:fire_base/app/modules/login/controllers/login_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final authC = Get.put(AuthController(), permanent: true);
+  final authC = Get.put(LoginController(), permanent: true);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(

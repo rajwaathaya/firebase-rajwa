@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  final authC = Get.find<AuthController>();
   final _formkey = GlobalKey<FormState>();
   RxBool isRegis = false.obs;
   RxBool visibilityPass = false.obs;
@@ -209,24 +208,27 @@ class LoginView extends GetView<LoginController> {
                                               borderSide: BorderSide(
                                                   color: Color(0xFF8332A6))),
                                         ),
-                                        onTap: () async {
-                                          DateTime? pickeddate =
-                                              await showDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime(2000),
-                                                  lastDate: DateTime(2050));
+                                        // onTap: () async => await controller
+                                        // .handleBirthDate(context),
 
-                                          if (pickeddate != null) {
-                                            controller.dateC.text =
-                                                DateFormat('yyyy-mm-dd')
-                                                    .format(pickeddate);
-                                          }
-                                        },
-                                        validator: (value) =>
-                                            value == null || value.isEmpty
-                                                ? 'This Field Is Required'
-                                                : null,
+                                        // {
+                                        //   DateTime? pickeddate =
+                                        //       await showDatePicker(
+                                        //           context: context,
+                                        //           initialDate: DateTime.now(),
+                                        //           firstDate: DateTime(2000),
+                                        //           lastDate: DateTime(2050));
+
+                                        //   if (pickeddate != null) {
+                                        //     controller.dateC.text =
+                                        //         DateFormat('yyyy-mm-dd')
+                                        //             .format(pickeddate);
+                                        //   }
+                                        // },
+                                        // validator: (value) =>
+                                        //     value == null || value.isEmpty
+                                        //         ? 'This Field Is Required'
+                                        //         : null,
                                       ),
                                     ),
                                   ],

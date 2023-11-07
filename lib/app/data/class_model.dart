@@ -57,27 +57,25 @@ class UserModel {
     }
     return this;
   }
-}
 
-class BookModel {
-  String? id;
-  String? title;
-  String? category;
-  int? page;
-  int? readPage;
-  String? image;
-  DateTime? time;
+  Stream<UserModel> streamList(String id) async* {
+    yield* db.collectionReference.doc(id).snapshots().map((event) {
+      print('event id = ${event.id}');
+      return fromJson(event);
+    });
+  }
 
-  BookModel(
-      {this.id, this.title, this.category, this.page, this.image, this.time});
-}
-
-class ReadModel {
-  String? id;
-  String? bookId;
-  int? prePage;
-  int? newPage;
-  DateTime? time;
-
-  ReadModel({this.id, this.bookId, this.prePage, this.newPage, this.time});
+  Stream<List<UserModel>> allstreamList() async* {
+    yield* db.collectionReference.snapshots().map((query) {
+      List<UserModel> list = [];
+      for (var doc in query.docs) {
+        list.add(
+          UserModel().fromJson(
+            doc,
+          ),
+        );
+      }
+      return list;
+    });
+  }
 }
