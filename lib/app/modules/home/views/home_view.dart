@@ -1,10 +1,7 @@
 import 'package:fire_base/app/modules/login/controllers/login_controller.dart';
-import 'package:fire_base/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:nb_utils/nb_utils.dart';
-
+import '../../../widgets/bottomnav.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -30,6 +27,7 @@ class HomeView extends GetView<HomeController> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    //AVATAR
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -51,7 +49,7 @@ class HomeView extends GetView<HomeController> {
                                   ),
                                 ),
                                 Text(
-                                  'Username',
+                                  '${authC.user.username}',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white,
@@ -74,6 +72,7 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                     SizedBox(height: 20),
+                    //BOOK LIST
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -96,6 +95,7 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                     SizedBox(height: 15),
+                    //LISTVIEW
                     Container(
                       height: 200,
                       child: ListView.builder(
@@ -242,18 +242,26 @@ class HomeView extends GetView<HomeController> {
                                                     ),
                                                   ),
                                                 ),
-                                                Text(
-                                                  'Category',
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Color(0xFFBF2C98),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 10),
+                                                  child: Text(
+                                                    'Category',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Color(0xFFBF2C98),
+                                                    ),
                                                   ),
                                                 ),
-                                                Text(
-                                                  '125/250 page',
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Color(0xFFBF2C98),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 10),
+                                                  child: Text(
+                                                    '125/250 page',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Color(0xFFBF2C98),
+                                                    ),
                                                   ),
                                                 ),
                                                 SizedBox(height: 10),
@@ -261,7 +269,7 @@ class HomeView extends GetView<HomeController> {
                                                   padding:
                                                       EdgeInsets.only(left: 10),
                                                   child: Text(
-                                                    '50%', // Tampilkan presentase di atas progres bar
+                                                    '50%',
                                                     style: TextStyle(
                                                       fontSize: 14,
                                                       color: Color(0xFFBF2C98),
@@ -300,6 +308,7 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ),
                     SizedBox(height: 15),
+                    //RECENT ACTIVITY
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Container(
@@ -418,44 +427,126 @@ class HomeView extends GetView<HomeController> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF8332A6),
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                content: Form(
+                  child: Container(
+                    width: 700,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            'Reading Form',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF8332A6),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Select Book',
+                                  labelStyle:
+                                      TextStyle(color: Color(0xFF8332A6)),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF8332A6))),
+                                  prefixIcon: Icon(Icons.book,
+                                      size: 25, color: Color(0xFF8332A6)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Previous Page',
+                                  labelStyle:
+                                      TextStyle(color: Color(0xFF8332A6)),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF8332A6))),
+                                  prefixIcon: Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      size: 25,
+                                      color: Color(0xFF8332A6)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Current Page',
+                                  labelStyle:
+                                      TextStyle(color: Color(0xFF8332A6)),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF8332A6))),
+                                  prefixIcon: Icon(Icons.menu_book,
+                                      size: 25, color: Color(0xFF8332A6)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  backgroundColor: Color(0xFF8332A6),
+                                  minimumSize: Size(120, 40)),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Submit'),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  backgroundColor: Color(0xFF8332A6),
+                                  minimumSize: Size(120, 40)),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Cancel'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
         child: Icon(Icons.add, color: Colors.white, size: 20),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 4.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 50, bottom: 10, top: 10),
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.home,
-                  color: Color(0xFF8332A6),
-                  size: 30,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 50, bottom: 10, top: 10),
-              child: IconButton(
-                onPressed: () {
-                  Get.toNamed(Routes.PROFILE);
-                },
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.grey,
-                  size: 30,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNav(),
     );
   }
 }

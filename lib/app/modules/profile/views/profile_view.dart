@@ -1,13 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fire_base/app/integrations/firestore.dart';
 import 'package:fire_base/app/routes/app_pages.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
+import '../../../widgets/bottomnav.dart';
 import '../../login/controllers/login_controller.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final authC = Get.find<LoginController>();
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  String formatDate(Timestamp timestamp) {
+    if (timestamp == null) {
+      return '';
+    }
+    final date = timestamp.toDate();
+    final dateFormatter = DateFormat('EEE, dd - MM - y');
+    return dateFormatter.format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +60,12 @@ class ProfileView extends GetView<ProfileController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Full Name',
+                          '${authC.user.username}',
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                         SizedBox(height: 2),
                         Text(
-                          'name@gmal.com',
+                          currentUser.email!,
                           style: TextStyle(fontSize: 14, color: Colors.white),
                         )
                       ],
@@ -157,75 +171,112 @@ class ProfileView extends GetView<ProfileController> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Row(
-              children: [
-                Icon(Icons.person, color: Color(0xFF8332A6), size: 30),
-                SizedBox(width: 10),
-                Text('Name',
-                    style: TextStyle(fontSize: 20, color: Color(0xFF8332A6))),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, top: 20),
-            child: Row(
-              children: [
-                Icon(Icons.email, color: Color(0xFF8332A6), size: 30),
-                SizedBox(width: 10),
-                Text('Email',
-                    style: TextStyle(fontSize: 20, color: Color(0xFF8332A6))),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, top: 20),
-            child: Row(
-              children: [
-                Icon(Icons.cake, color: Color(0xFF8332A6), size: 30),
-                SizedBox(width: 10),
-                Text('Birthday',
-                    style: TextStyle(fontSize: 20, color: Color(0xFF8332A6))),
-              ],
-            ),
+          StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection(usersCollection)
+                .doc(currentUser.uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.data() != null) {
+                  final userData =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Row(
+                          children: [
+                            Icon(Icons.person,
+                                color: Color(0xFF8332A6), size: 35),
+                            SizedBox(width: 10),
+                            Text(
+                              userData['username'],
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Color(0xFF8332A6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 20),
+                        child: Row(
+                          children: [
+                            Icon(Icons.email,
+                                color: Color(0xFF8332A6), size: 35),
+                            SizedBox(width: 10),
+                            Text(
+                              userData['email'],
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Color(0xFF8332A6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 20),
+                        child: Row(
+                          children: [
+                            Icon(Icons.cake,
+                                color: Color(0xFF8332A6), size: 35),
+                            SizedBox(width: 10),
+                            Text(
+                              formatDate(userData['birthDate']),
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Color(0xFF8332A6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 20),
+                        child: Row(
+                          children: [
+                            Icon(
+                              userData['gender'] == 'male'
+                                  ? Icons.male_outlined
+                                  : Icons.female_outlined,
+                              color: Color(0xFF8332A6),
+                              size: 35,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              userData['gender'],
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Color(0xFF8332A6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                        'Data tidak ditemukan'), // Menampilkan pesan jika data null
+                  );
+                }
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 4.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 50, bottom: 10, top: 10),
-              child: IconButton(
-                onPressed: () {
-                  Get.toNamed(Routes.HOME);
-                },
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.grey,
-                  size: 30,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 50, bottom: 10, top: 10),
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.person,
-                  color: Color(0xFF8332A6),
-                  size: 30,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNav(),
     );
   }
 }

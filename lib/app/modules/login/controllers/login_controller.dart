@@ -33,7 +33,8 @@ class LoginController extends GetxController {
   TextEditingController confirC = TextEditingController();
   TextEditingController dateC = TextEditingController();
   RxString _selectedGender = ''.obs;
-  RxString get selectedGender => _selectedGender;
+  String get selectedGender => _selectedGender.value;
+  set selectedGender(String value) => _selectedGender.value = value;
 
   void setSelectedGender(String value) {
     _selectedGender = value.obs;
@@ -52,7 +53,7 @@ class LoginController extends GetxController {
         lastDate: DateTime(2050));
 
     if (selectedDate != null) {
-      dateC.text = DateFormat('EEE, dd MM y').format(selectedDate!);
+      dateC.text = DateFormat('EEE, dd - MM - y').format(selectedDate!);
     }
   }
 
@@ -98,6 +99,7 @@ class LoginController extends GetxController {
         email: emailC.text,
         password: passC.text,
         birthDate: selectedDate,
+        gender: selectedGender,
         image: '',
         time: DateTime.now(),
       );

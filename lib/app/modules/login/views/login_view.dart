@@ -238,9 +238,9 @@ class LoginView extends GetView<LoginController> {
                                           Radio<String>(
                                             value: 'male',
                                             groupValue:
-                                                controller.selectedGender.value,
+                                                controller.selectedGender,
                                             onChanged: (value) {
-                                              controller.selectedGender.value =
+                                              controller.selectedGender =
                                                   value ?? '';
                                             },
                                             activeColor: Color(0xff8332A6),
@@ -252,9 +252,9 @@ class LoginView extends GetView<LoginController> {
                                           Radio<String>(
                                             value: 'female',
                                             groupValue:
-                                                controller.selectedGender.value,
+                                                controller.selectedGender,
                                             onChanged: (value) {
-                                              controller.selectedGender.value =
+                                              controller.selectedGender =
                                                   value ?? '';
                                             },
                                             activeColor: Color(0xff8332A6),

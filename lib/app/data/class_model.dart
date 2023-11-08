@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:fire_base/app/data/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../integrations/firestore.dart';
 
 class UserModel {
@@ -10,6 +11,7 @@ class UserModel {
   String? password;
   String? image;
   DateTime? birthDate;
+  String? gender;
   DateTime? time;
 
   UserModel(
@@ -19,6 +21,7 @@ class UserModel {
       this.password,
       this.image,
       this.birthDate,
+      this.gender,
       this.time});
 
   UserModel fromJson(DocumentSnapshot doc) {
@@ -30,6 +33,7 @@ class UserModel {
         password: json?['password'],
         image: json?['image'],
         birthDate: (json?['birthDate'] as Timestamp?)?.toDate(),
+        gender: json?['gender'],
         time: (json?['time'] as Timestamp?)?.toDate());
   }
 
@@ -40,6 +44,7 @@ class UserModel {
         'password': password,
         'image': image,
         'birthDate': birthDate,
+        'gender': gender,
         'time': time
       };
 
