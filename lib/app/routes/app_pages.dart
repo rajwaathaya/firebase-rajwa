@@ -34,7 +34,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FORM,
-      page: () => const FormView(),
+      page: () => FormView(),
       binding: FormBinding(),
     ),
   ];

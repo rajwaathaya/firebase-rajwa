@@ -1,0 +1,124 @@
+
+
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:fire_base'
+import 'package:fire_base/app/data/book_model.dart';
+import 'package:fire_base/app/data/read_mode.dart';
+import 'package:fire_base/app/modules/home/controllers/home_controller.dart';
+
+class ReadForm extends GetView<HomeController> {
+  Book? selectedBook;
+  TextEditingController preC = TextEditingController();
+  TextEditingController curC = TextEditingController();
+  GlobalKey<FormState> form = GlobalKey();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      child: Obx(
+        () => Form(
+          key: form,
+          child: Column(
+            children: [
+              DropdownSearch<BookModel>(
+                items: controller.books,
+                itemAsString: (book) => book?.title ?? '',
+                enabled: !controller.isLoading,
+                onChanged: (book) {
+                  selectedBook = book;
+                  print(book?.readPage ?? "Null");
+                  preC.text = book?.readPage.toString() ?? "";
+                },
+                dropdownSearchDecoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  prefixIcon: Icon(Icons.book),
+                  labelText: "Select Book",
+                ),
+              ),
+              AppTextField(
+                isValidationRequired: true,
+                controller: preC,
+                enabled: !controller.isLoading,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.remove_red_eye_outlined),
+                  labelText: "Previous Page",
+                ),
+                readOnly: true,
+              ),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                controller: curC,
+                enabled: !controller.isLoading,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.menu_book),
+                  labelText: "Current Page",
+                ),
+                validator: (value) {
+                  if (value.isEmptyOrNull) {
+                    return "This field is required";
+                  }
+                  if (selectedBook == null) return "Select book first";
+
+                  if ((int.tryParse(value ?? '') ?? 0) >=
+                      (selectedBook!.pages as num)) {
+                    return "This field can't more than book's total pages";
+                  }
+                  if ((int.tryParse(value ?? '') ?? 0) <=
+                      (selectedBook!.readPage as num)) {
+                    return "This field can't less than previous page";
+                  }
+                },
+              ),
+              16.height,
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: controller.isLoading
+                        ? null
+                        : () {
+                            if (_form.currentState!.validate()) {
+                              var res = controller.saveRead(Reading(
+                                bookId: selectedBook?.id,
+                                newPage: curC.text.toInt(),
+                                prePage: preC.text.toInt(),
+                              ));
+                            }
+                          },
+                    child: controller.isLoading
+                        ? Container(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                                ))
+                        : text("Submit"),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      )),
+                    ),
+                  ).expand(),
+                  8.width,
+                  TextButton(
+                    onPressed: () => Get.back(),
+                    child: text("Cancel"),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          side: BorderSide(color: clr_primary, width: 1))),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
